@@ -142,11 +142,8 @@ object Form13: TForm13
     ActivePage = TabSheet1
     Align = alClient
     TabOrder = 1
-    ExplicitTop = 73
-    ExplicitHeight = 362
     object TabSheet1: TTabSheet
       Caption = 'Lista P'#225'ginas'
-      ExplicitHeight = 334
       object mmLista: TMemo
         Left = 0
         Top = 0
@@ -154,13 +151,15 @@ object Form13: TForm13
         Height = 316
         Align = alClient
         TabOrder = 0
-        ExplicitHeight = 334
       end
     end
     object TabSheet2: TTabSheet
       Caption = 'Resultados'
       ImageIndex = 1
-      ExplicitHeight = 334
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object mmResultados: TMemo
         Left = 0
         Top = 0
@@ -168,8 +167,6 @@ object Form13: TForm13
         Height = 316
         Align = alClient
         TabOrder = 0
-        ExplicitTop = -2
-        ExplicitHeight = 334
       end
     end
   end
@@ -187,7 +184,7 @@ object Form13: TForm13
     Request.Ranges.Units = 'bytes'
     Request.Ranges = <>
     HTTPOptions = [hoForceEncodeParams]
-    Left = 504
+    Left = 505
     Top = 40
   end
 end

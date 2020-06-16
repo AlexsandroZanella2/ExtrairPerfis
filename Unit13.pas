@@ -30,18 +30,18 @@ type
     chMP4: TCheckBox;
     Requisicao: TIdHTTP;
     procedure btBuscarClick(Sender: TObject);
-    function ListaImagens;
+    //function ListaImagens;
   private
     { Private declarations }
   public
     { Public declarations }
-  end;
-
-var
-  Form13: TForm13;
   posicao : integer;
   retorno : tstringlist;
   identificador, pagina : string;
+  end;
+
+var
+  Form13: TForm13;  
 
 implementation
 
