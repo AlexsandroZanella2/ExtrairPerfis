@@ -90,13 +90,14 @@ object Form13: TForm13
       TabOrder = 2
       OnClick = btBuscarClick
     end
-    object Edit1: TEdit
+    object edIDD: TEdit
       Left = 84
       Top = 62
       Width = 230
       Height = 21
       Anchors = [akLeft, akTop, akRight]
       TabOrder = 3
+      Text = 'keywords=&sex=Woman&country=BR&verified=1&p='
       TextHint = 'Identificador'
     end
     object chJPG: TCheckBox
@@ -105,8 +106,7 @@ object Form13: TForm13
       Width = 41
       Height = 17
       Caption = '.jpg'
-      Checked = True
-      State = cbChecked
+      Enabled = False
       TabOrder = 4
     end
     object chBMP: TCheckBox
@@ -115,6 +115,7 @@ object Form13: TForm13
       Width = 41
       Height = 17
       Caption = '.bmp'
+      Enabled = False
       TabOrder = 5
     end
     object chGIF: TCheckBox
@@ -123,6 +124,7 @@ object Form13: TForm13
       Width = 41
       Height = 17
       Caption = '.gif'
+      Enabled = False
       TabOrder = 6
     end
     object chMP4: TCheckBox
@@ -131,6 +133,7 @@ object Form13: TForm13
       Width = 41
       Height = 17
       Caption = '.mp4'
+      Enabled = False
       TabOrder = 7
     end
     object BitBtn1: TBitBtn
@@ -148,6 +151,7 @@ object Form13: TForm13
       Top = 62
       Width = 75
       Height = 25
+      Anchors = [akTop, akRight]
       Caption = 'Salvar'
       TabOrder = 9
       OnClick = btSalvarClick

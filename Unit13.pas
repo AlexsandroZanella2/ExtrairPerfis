@@ -27,7 +27,7 @@ type
     Label3: TLabel;
     btBuscar: TBitBtn;
     Label4: TLabel;
-    Edit1: TEdit;
+    edIDD: TEdit;
     chJPG: TCheckBox;
     chBMP: TCheckBox;
     chGIF: TCheckBox;
@@ -83,7 +83,7 @@ var
   HttpResponse: IHttpResponse;
   Strm: TMemoryStream;
   caminhoOrd:string;
-  localTest:string;
+  localTest,ew:string;
 begin
   HttpClient := THttpClient.Create;
   Strm := TMemoryStream.Create;
@@ -92,11 +92,16 @@ begin
   //showmessage(caminhoOrd);
   caminhoOrd := StringReplace(caminhoOrd,'/','\',[rfReplaceAll, rfIgnoreCase]);
   caminhoOrd := copy(caminhoOrd,pos('\', caminhoOrd)+1);
-  caminhoOrd := copy(caminhoOrd,pos('\', caminhoOrd)+1);
-  showmessage(caminhoOrd);
-  localTest := copy(caminhoOrd,1, pos('\', caminhoOrd));
-  CriaSubDir(localTest, Local);
+  //caminhoOrd := copy(caminhoOrd,pos('\', caminhoOrd)+1);
   //showmessage(caminhoOrd);
+  ew := copy(caminhoOrd,1, pos('\', caminhoOrd));
+  localTest := ew;
+  caminhoOrd := copy(caminhoOrd,pos('\', caminhoOrd)+1);
+  caminhoOrd := copy(caminhoOrd,pos('\', caminhoOrd)+1);
+  caminhoOrd := copy(caminhoOrd,pos('\', caminhoOrd)+1);
+  caminhoOrd := ew + '\' + caminhoOrd ;
+  CriaSubDir(localTest, Local);
+  showmessage(caminhoOrd);
   try
     HttpResponse := HttpClient.Get(AURL);
     Strm.LoadFromStream(HttpResponse.ContentStream);
@@ -141,8 +146,7 @@ begin
   try
     for i := 0 to 12 do
     begin
-      pagina := 'https://www.xvideos.com/profile-search/?keywords=&sex=Woman&country=BR&verified=1&p='
-        + inttostr(i);
+      pagina := 'https://www.xvideos.com/profile-search/?' + edIDD.Text + inttostr(i);
 
       retorno.Text := GetURL(pagina);
 
