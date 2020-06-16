@@ -68,7 +68,7 @@ object Form13: TForm13
     object cbSite: TComboBox
       Left = 320
       Top = 8
-      Width = 114
+      Width = 117
       Height = 21
       Anchors = [akTop, akRight]
       ItemIndex = 0
@@ -86,7 +86,7 @@ object Form13: TForm13
       Width = 117
       Height = 25
       Anchors = [akTop, akRight]
-      Caption = 'Buscar'
+      Caption = 'Buscar Imagens'
       TabOrder = 2
       OnClick = btBuscarClick
     end
@@ -133,6 +133,25 @@ object Form13: TForm13
       Caption = '.mp4'
       TabOrder = 7
     end
+    object BitBtn1: TBitBtn
+      Left = 320
+      Top = 31
+      Width = 117
+      Height = 25
+      Anchors = [akTop, akRight]
+      Caption = 'Buscar Perfis'
+      TabOrder = 8
+      OnClick = BitBtn1Click
+    end
+    object btSalvar: TButton
+      Left = 443
+      Top = 62
+      Width = 75
+      Height = 25
+      Caption = 'Salvar'
+      TabOrder = 9
+      OnClick = btSalvarClick
+    end
   end
   object PageControl1: TPageControl
     Left = 0
@@ -156,10 +175,6 @@ object Form13: TForm13
     object TabSheet2: TTabSheet
       Caption = 'Resultados'
       ImageIndex = 1
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
       object mmResultados: TMemo
         Left = 0
         Top = 0
@@ -169,22 +184,5 @@ object Form13: TForm13
         TabOrder = 0
       end
     end
-  end
-  object Requisicao: TIdHTTP
-    AllowCookies = True
-    ProxyParams.BasicAuthentication = False
-    ProxyParams.ProxyPort = 0
-    Request.ContentLength = -1
-    Request.ContentRangeEnd = -1
-    Request.ContentRangeStart = -1
-    Request.ContentRangeInstanceLength = -1
-    Request.Accept = 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'
-    Request.BasicAuthentication = False
-    Request.UserAgent = 'Mozilla/3.0 (compatible; Indy Library)'
-    Request.Ranges.Units = 'bytes'
-    Request.Ranges = <>
-    HTTPOptions = [hoForceEncodeParams]
-    Left = 505
-    Top = 40
   end
 end
