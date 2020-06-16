@@ -23,20 +23,18 @@ object Form13: TForm13
     Caption = 
       'Alexsandro Zanella | (54) 991245573 | alexsandro.zanella@wmcsist' +
       'emas.com | Em desenvolvimento'
-    ExplicitTop = 410
     ExplicitWidth = 481
   end
   object Panel1: TPanel
     Left = 0
     Top = 0
     Width = 630
-    Height = 73
+    Height = 91
     Align = alTop
     TabOrder = 0
-    ExplicitWidth = 664
     DesignSize = (
       630
-      73)
+      91)
     object Label1: TLabel
       Left = 16
       Top = 11
@@ -51,96 +49,145 @@ object Form13: TForm13
       Height = 13
       Caption = 'Formato:'
     end
+    object Label4: TLabel
+      Left = 16
+      Top = 65
+      Width = 65
+      Height = 13
+      Caption = 'Identificador:'
+    end
     object edSaida: TEdit
-      Left = 68
+      Left = 84
       Top = 8
       Width = 230
       Height = 21
       Anchors = [akLeft, akTop, akRight]
       TabOrder = 0
       TextHint = 'Pasta de sa'#237'da'
-      ExplicitWidth = 237
     end
     object cbSite: TComboBox
-      Left = 304
+      Left = 320
       Top = 8
-      Width = 106
+      Width = 114
       Height = 21
       Anchors = [akTop, akRight]
+      ItemIndex = 0
       TabOrder = 1
-      Text = 'cbSite'
+      Text = 'Instagram'
       Items.Strings = (
         'Instagram'
         'xvideos'
         'Tumblr'
         'Facebook')
-      ExplicitLeft = 311
-    end
-    object edFormato: TEdit
-      Left = 68
-      Top = 35
-      Width = 121
-      Height = 21
-      TabOrder = 2
-      Text = '.jpg'
     end
     object btBuscar: TBitBtn
-      Left = 304
-      Top = 35
-      Width = 106
+      Left = 320
+      Top = 61
+      Width = 117
       Height = 25
       Anchors = [akTop, akRight]
       Caption = 'Buscar'
+      TabOrder = 2
+      OnClick = btBuscarClick
+    end
+    object Edit1: TEdit
+      Left = 84
+      Top = 62
+      Width = 230
+      Height = 21
+      Anchors = [akLeft, akTop, akRight]
       TabOrder = 3
-      ExplicitLeft = 311
+      TextHint = 'Identificador'
+    end
+    object chJPG: TCheckBox
+      Left = 88
+      Top = 39
+      Width = 41
+      Height = 17
+      Caption = '.jpg'
+      Checked = True
+      State = cbChecked
+      TabOrder = 4
+    end
+    object chBMP: TCheckBox
+      Left = 135
+      Top = 39
+      Width = 41
+      Height = 17
+      Caption = '.bmp'
+      TabOrder = 5
+    end
+    object chGIF: TCheckBox
+      Left = 182
+      Top = 39
+      Width = 41
+      Height = 17
+      Caption = '.gif'
+      TabOrder = 6
+    end
+    object chMP4: TCheckBox
+      Left = 229
+      Top = 39
+      Width = 41
+      Height = 17
+      Caption = '.mp4'
+      TabOrder = 7
     end
   end
   object PageControl1: TPageControl
     Left = 0
-    Top = 73
+    Top = 91
     Width = 630
-    Height = 362
+    Height = 344
     ActivePage = TabSheet1
     Align = alClient
     TabOrder = 1
-    ExplicitLeft = 96
-    ExplicitTop = 222
-    ExplicitWidth = 289
-    ExplicitHeight = 193
+    ExplicitTop = 73
+    ExplicitHeight = 362
     object TabSheet1: TTabSheet
       Caption = 'Lista P'#225'ginas'
-      ExplicitWidth = 281
-      ExplicitHeight = 165
+      ExplicitHeight = 334
       object mmLista: TMemo
         Left = 0
         Top = 0
         Width = 622
-        Height = 334
+        Height = 316
         Align = alClient
         TabOrder = 0
-        ExplicitLeft = 136
-        ExplicitTop = 96
-        ExplicitWidth = 185
-        ExplicitHeight = 89
+        ExplicitHeight = 334
       end
     end
     object TabSheet2: TTabSheet
       Caption = 'Resultados'
       ImageIndex = 1
-      ExplicitWidth = 281
-      ExplicitHeight = 165
+      ExplicitHeight = 334
       object mmResultados: TMemo
         Left = 0
         Top = 0
         Width = 622
-        Height = 334
+        Height = 316
         Align = alClient
         TabOrder = 0
-        ExplicitLeft = 136
-        ExplicitTop = 96
-        ExplicitWidth = 185
-        ExplicitHeight = 89
+        ExplicitTop = -2
+        ExplicitHeight = 334
       end
     end
+  end
+  object Requisicao: TIdHTTP
+    AllowCookies = True
+    ProxyParams.BasicAuthentication = False
+    ProxyParams.ProxyPort = 0
+    Request.ContentLength = -1
+    Request.ContentRangeEnd = -1
+    Request.ContentRangeStart = -1
+    Request.ContentRangeInstanceLength = -1
+    Request.Accept = 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'
+    Request.BasicAuthentication = False
+    Request.UserAgent = 'Mozilla/3.0 (compatible; Indy Library)'
+    Request.Ranges.Units = 'bytes'
+    Request.Ranges = <>
+    HTTPOptions = [hoForceEncodeParams]
+    Left = 504
+    Top = 40
   end
 end
