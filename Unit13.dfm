@@ -93,7 +93,7 @@ object Form13: TForm13
     object edIDD: TEdit
       Left = 84
       Top = 62
-      Width = 230
+      Width = 205
       Height = 21
       Anchors = [akLeft, akTop, akRight]
       TabOrder = 3
@@ -156,37 +156,64 @@ object Form13: TForm13
       TabOrder = 9
       OnClick = btSalvarClick
     end
+    object Edit1: TEdit
+      Left = 290
+      Top = 62
+      Width = 26
+      Height = 21
+      Anchors = [akTop, akRight]
+      TabOrder = 10
+      Text = '1'
+    end
   end
   object PageControl1: TPageControl
     Left = 0
-    Top = 91
+    Top = 108
     Width = 630
-    Height = 344
+    Height = 327
     ActivePage = TabSheet1
     Align = alClient
     TabOrder = 1
+    ExplicitTop = 91
+    ExplicitHeight = 344
     object TabSheet1: TTabSheet
       Caption = 'Lista P'#225'ginas'
+      ExplicitHeight = 316
       object mmLista: TMemo
         Left = 0
         Top = 0
         Width = 622
-        Height = 316
+        Height = 299
         Align = alClient
         TabOrder = 0
+        ExplicitHeight = 316
       end
     end
     object TabSheet2: TTabSheet
       Caption = 'Resultados'
       ImageIndex = 1
+      ExplicitHeight = 316
       object mmResultados: TMemo
         Left = 0
         Top = 0
         Width = 622
-        Height = 316
+        Height = 299
         Align = alClient
         TabOrder = 0
+        ExplicitHeight = 316
       end
     end
+  end
+  object ProgressBar1: TProgressBar
+    Left = 0
+    Top = 91
+    Width = 630
+    Height = 17
+    Align = alTop
+    TabOrder = 2
+    Visible = False
+    ExplicitLeft = 476
+    ExplicitTop = 12
+    ExplicitWidth = 150
   end
 end

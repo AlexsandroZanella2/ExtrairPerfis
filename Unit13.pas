@@ -34,6 +34,8 @@ type
     chMP4: TCheckBox;
     BitBtn1: TBitBtn;
     btSalvar: TButton;
+    Edit1: TEdit;
+    ProgressBar1: TProgressBar;
     procedure btBuscarClick(Sender: TObject);
     procedure BitBtn1Click(Sender: TObject);
     procedure PesquisaXvideos;
@@ -65,6 +67,16 @@ implementation
 //
 //
 //
+
+function ifthen(boo: boolean; resTrue,resFalse: string): string;
+  begin
+     if boo then begin
+       result := resTrue;
+     end else begin
+       result:= resFalse;
+     end;
+  end;
+
 function CriaSubDir(const NomeSubDir, Local: string): boolean;
 var
   Caminho: string;
@@ -99,9 +111,9 @@ begin
   caminhoOrd := copy(caminhoOrd,pos('\', caminhoOrd)+1);
   caminhoOrd := copy(caminhoOrd,pos('\', caminhoOrd)+1);
   caminhoOrd := copy(caminhoOrd,pos('\', caminhoOrd)+1);
-  caminhoOrd := ew + '\' + caminhoOrd ;
+  caminhoOrd := ew + caminhoOrd ;
   CriaSubDir(localTest, Local);
-  showmessage(caminhoOrd);
+  //showmessage(caminhoOrd);
   try
     HttpResponse := HttpClient.Get(AURL);
     Strm.LoadFromStream(HttpResponse.ContentStream);
@@ -135,6 +147,7 @@ var
   i, k, l: integer;
   retListaPerfis: tstringlist;
   check: string;
+
 begin
   retListaPerfis := tstringlist.Create;
   //
@@ -142,11 +155,14 @@ begin
     '" class="thumb-block thumb-block-profile  no-rotate"><div class="thumb-inside"><div class="thumb"><a href="';
   finalizador := '"';
   retorno := tstringlist.Create;
-
+  ProgressBar1.Max := strtoint(Edit1.Text);
+  ProgressBar1.Visible := true;
   try
-    for i := 0 to 12 do
+    for i := 0 to strtoint(Edit1.Text) -1 do
     begin
-      pagina := 'https://www.xvideos.com/profile-search/?' + edIDD.Text + inttostr(i);
+      ProgressBar1.Position := i;
+      pagina := 'https://www.xvideos.com/profile-search/?' + edIDD.Text +
+      ifthen(i>0, inttostr(i),'');
 
       retorno.Text := GetURL(pagina);
 
@@ -155,8 +171,13 @@ begin
         posicao := Pos(identificador, retorno.Text) + length(identificador);
         retorno.Text := copy(retorno.Text, posicao);
 
-        retListaPerfis.Add('https://www.xvideos.com' + copy(retorno.Text, 1,
-          Pos('"', retorno.Text) - 1));
+        if mmLista.Lines.Text.Contains('https://www.xvideos.com' + copy(retorno.Text, 1,
+            Pos('"', retorno.Text) - 1)) then begin
+            //
+          end else begin
+            retListaPerfis.Add('https://www.xvideos.com' + copy(retorno.Text, 1,
+            Pos('"', retorno.Text) - 1));
+          end;
 
       end;
     end;
@@ -164,7 +185,7 @@ begin
     ShowMessage('Busca de Perfis concluída!' + 'Perfis encontrados: ' +
       inttostr(retListaPerfis.Count));
   end;
-
+  ProgressBar1.Visible := false;
   mmLista.lines.Text := retListaPerfis.Text;
   retorno.Destroy;
   retListaPerfis.Destroy;
@@ -183,6 +204,7 @@ procedure TForm13.btBuscarClick(Sender: TObject);
 var
   i: integer;
   retListaImagens: tstringlist;
+  profilePic: string;
 begin
   retorno := tstringlist.Create;
   retListaImagens := tstringlist.Create;
@@ -203,6 +225,10 @@ begin
         length('https://www.xvideos.com') + 1);
 
       retorno.Text := GetURL(pagina);
+      ProfilePic := copy(retorno.Text,pos('<img src="https://img-hw.xvideos.com/videos/profiles/profthumb', retorno.Text));
+      ProfilePic := copy(ProfilePic, pos('https://img-hw.xvideos.com/videos/profiles/profthumb', ProfilePic));
+      ProfilePic := copy(Profilepic, 1, pos('"', ProfilePic)-1);
+      retListaImagens.Add(ProfilePic);
       if retorno.Text.Contains('href="' + identificador) then
       begin
 
@@ -249,11 +275,14 @@ procedure TForm13.btSalvarClick(Sender: TObject);
 var
 i: integer;
 begin
+  ProgressBar1.Max := mmResultados.Lines.Count;
+  ProgressBar1.Visible := true;
     for i := 0 to mmResultados.Lines.Count do begin
       //
+      ProgressBar1.Position := i;
       DownImage(mmResultados.Lines[i], edSaida.Text);
     end;
-
+  ProgressBar1.Visible := false;
 end;
 
 end.
