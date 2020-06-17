@@ -36,10 +36,13 @@ type
     btSalvar: TButton;
     Edit1: TEdit;
     ProgressBar1: TProgressBar;
+    TabSheet3: TTabSheet;
+    mmPagina: TMemo;
     procedure btBuscarClick(Sender: TObject);
     procedure BitBtn1Click(Sender: TObject);
     procedure PesquisaXvideos;
     procedure btSalvarClick(Sender: TObject);
+    procedure cbSiteChange(Sender: TObject);
   private
     { Private declarations }
   public
@@ -89,7 +92,7 @@ begin
 end;
 
 
-procedure DownImage(AURL: string; Local: string);
+procedure DownImage(AURL: string; Local, PerfilInsta: string);
 var
   HttpClient: THttpClient;
   HttpResponse: IHttpResponse;
@@ -106,12 +109,19 @@ begin
   caminhoOrd := copy(caminhoOrd,pos('\', caminhoOrd)+1);
   //caminhoOrd := copy(caminhoOrd,pos('\', caminhoOrd)+1);
   //showmessage(caminhoOrd);
-  ew := copy(caminhoOrd,1, pos('\', caminhoOrd));
+  if PerfilInsta = '' then begin
+     ew := copy(caminhoOrd,1, pos('\', caminhoOrd));
+  end else begin
+     ew := PerfilInsta + '\';
+  end;
+
   localTest := ew;
   caminhoOrd := copy(caminhoOrd,pos('\', caminhoOrd)+1);
   caminhoOrd := copy(caminhoOrd,pos('\', caminhoOrd)+1);
   caminhoOrd := copy(caminhoOrd,pos('\', caminhoOrd)+1);
+  caminhoOrd := copy(caminhoOrd,1,pos('.jpg', caminhoOrd)+3);
   caminhoOrd := ew + caminhoOrd ;
+
   CriaSubDir(localTest, Local);
   //showmessage(caminhoOrd);
   try
@@ -182,8 +192,8 @@ begin
       end;
     end;
   finally
-    ShowMessage('Busca de Perfis concluída!' + 'Perfis encontrados: ' +
-      inttostr(retListaPerfis.Count));
+    ShowMessage('Busca de Perfis concluída!' +
+                ' Perfis encontrados: ' +  inttostr(retListaPerfis.Count));
   end;
   ProgressBar1.Visible := false;
   mmLista.lines.Text := retListaPerfis.Text;
@@ -193,11 +203,16 @@ end;
 
 procedure TForm13.BitBtn1Click(Sender: TObject);
 begin
-  if cbSite.ItemIndex = 1 then
-  begin
+  if cbSite.ItemIndex = 0 then begin
+      //PesquisaInstagram
+  end else if cbSite.ItemIndex = 1 then begin
     PesquisaXvideos;
-
+  end else if cbSite.ItemIndex = 2 then begin
+    //;
+  end else if cbSite.ItemIndex = 3 then begin
+    //
   end;
+
 end;
 
 procedure TForm13.btBuscarClick(Sender: TObject);
@@ -205,6 +220,7 @@ var
   i: integer;
   retListaImagens: tstringlist;
   profilePic: string;
+  testeAt: string;
 begin
   retorno := tstringlist.Create;
   retListaImagens := tstringlist.Create;
@@ -213,13 +229,62 @@ begin
   if cbSite.ItemIndex = 0 then
   begin
     // Instagram
+     identificador := '';
+    ProgressBar1.Max := mmLista.lines.Count;
+    for i := 0 to mmLista.lines.Count -1 do
+    begin
+      ProgressBar1.Position := i;
+      pagina := mmLista.lines[i];
+
+      retListaImagens.Add('@'+copy(pagina,27,pos('/', pagina)+1));
+
+      retorno.Text := GetURL(pagina);
+      mmPagina.Lines.Text := retorno.Text;
+      retorno.Text := StringReplace(retorno.Text, '\u0026','&',[rfReplaceAll, rfIgnoreCase]);
+     // mmResultados.lines.text := retorno.text;
+      ProfilePic := copy(retorno.Text,pos('<meta property="og:image" content="https://scontent-gru2-1.cdninstagram.com/v/', retorno.Text));
+      ProfilePic := copy(ProfilePic, pos('https://scontent-gru', ProfilePic));
+      ProfilePic := copy(Profilepic, 1, pos('"', ProfilePic)-1);
+
+      if retorno.Text.Contains('{"src":"https://scontent-gru') then
+      begin
+        retListaImagens.Add(ProfilePic);
+
+
+
+        identificador := '{"src":"https://scontent-gru';
+       // showmessage(retorno.Text);
+        while retorno.Text.Contains(identificador) and retorno.Text.Contains('/s640x640/') do
+        begin
+          posicao := Pos(identificador, retorno.Text);
+          retorno.Text := copy(retorno.Text, posicao);
+          // showmessage(retorno.Text);
+          retorno.Text := copy(retorno.Text, pos('https://scontent-gru', retorno.Text));
+          // showmessage(retorno.Text);
+          testeAt := copy(retorno.Text,1, Pos('"', retorno.Text)-1);
+          if testeAt.Contains('/s640x640/') then
+          retListaImagens.Add(copy(retorno.Text, 1, Pos('"', retorno.Text)-1));
+          // 34
+           //showmessage(retorno.Text);
+           //break;
+        end;
+      end;
+    end;
+    //ProgressBar1.Visible := false;
+    //mmResultados.lines.Text := retListaImagens.Text;
+    //retListaImagens.Destroy;
+    //retorno.Destroy;
+
+{____________________________________________________________________________________________________________}
   end
   else if cbSite.ItemIndex = 1 then
   begin
     // XVideos
     identificador := '';
+    ProgressBar1.Max := mmLista.lines.Count;
     for i := 0 to mmLista.lines.Count - 1 do
     begin
+      ProgressBar1.Position := i;
       pagina := mmLista.lines[i];
       identificador := copy(mmLista.lines[i],
         length('https://www.xvideos.com') + 1);
@@ -228,13 +293,14 @@ begin
       ProfilePic := copy(retorno.Text,pos('<img src="https://img-hw.xvideos.com/videos/profiles/profthumb', retorno.Text));
       ProfilePic := copy(ProfilePic, pos('https://img-hw.xvideos.com/videos/profiles/profthumb', ProfilePic));
       ProfilePic := copy(Profilepic, 1, pos('"', ProfilePic)-1);
-      retListaImagens.Add(ProfilePic);
+
       if retorno.Text.Contains('href="' + identificador) then
       begin
-
+        retListaImagens.Add(ProfilePic);
         posicao := Pos('href="' + identificador, retorno.Text);
         retorno.Text := copy(retorno.Text, posicao);
         retorno.Text := copy(retorno.Text, 7);
+        //showmessage(retorno.Text);
         retorno.Text := copy(retorno.Text, 1, Pos('"', retorno.Text) - 1);
 
         retorno.Text := GetURL('https://www.xvideos.com' + retorno.Text);
@@ -256,15 +322,18 @@ begin
         end;
       end;
     end;
-
+    ProgressBar1.Visible := false;
+{____________________________________________________________________________________________________________}
   end
   else if cbSite.ItemIndex = 2 then
   begin
     // Tumblr
+{____________________________________________________________________________________________________________}
   end
   else if cbSite.ItemIndex = 3 then
   begin
     // Facebook
+{____________________________________________________________________________________________________________}
   end;
   mmResultados.lines.Text := retListaImagens.Text;
   retListaImagens.Destroy;
@@ -274,15 +343,41 @@ end;
 procedure TForm13.btSalvarClick(Sender: TObject);
 var
 i: integer;
+Perfilname: string;
 begin
   ProgressBar1.Max := mmResultados.Lines.Count;
   ProgressBar1.Visible := true;
-    for i := 0 to mmResultados.Lines.Count do begin
-      //
+    for i := 0 to mmResultados.Lines.Count -1 do begin
+      if copy(mmResultados.Lines[i], 1,1) = '@' then begin
+        Perfilname := copy(mmResultados.Lines[i],2);
+      end else begin
       ProgressBar1.Position := i;
-      DownImage(mmResultados.Lines[i], edSaida.Text);
+      DownImage(mmResultados.Lines[i], edSaida.Text,Perfilname);
+      end;
     end;
   ProgressBar1.Visible := false;
+end;
+
+procedure TForm13.cbSiteChange(Sender: TObject);
+begin
+    if cbSite.ItemIndex = 0 then begin
+      //Instagram
+      edIDD.Visible := False;
+      Label4.Visible := False;
+      Bitbtn1.Visible := false;
+      edit1.Visible := false;
+    end else if cbSite.ItemIndex = 1 then begin
+      //Xvideos
+      edIDD.Visible := True;
+      Label4.Visible := True;
+      Bitbtn1.Visible := True;
+      edit1.Visible := true;
+    end else if cbSite.ItemIndex = 2 then begin
+      //Tumblr
+    end else if cbSite.ItemIndex = 3 then begin
+      //Facebook
+    end;
+
 end;
 
 end.

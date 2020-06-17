@@ -2,8 +2,8 @@ object Form13: TForm13
   Left = 0
   Top = 0
   Caption = 'Extra'#231#227'o'
-  ClientHeight = 448
-  ClientWidth = 630
+  ClientHeight = 509
+  ClientWidth = 820
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -15,8 +15,8 @@ object Form13: TForm13
   TextHeight = 13
   object Label3: TLabel
     Left = 0
-    Top = 435
-    Width = 630
+    Top = 496
+    Width = 820
     Height = 13
     Align = alBottom
     Alignment = taCenter
@@ -28,12 +28,12 @@ object Form13: TForm13
   object Panel1: TPanel
     Left = 0
     Top = 0
-    Width = 630
+    Width = 820
     Height = 91
     Align = alTop
     TabOrder = 0
     DesignSize = (
-      630
+      820
       91)
     object Label1: TLabel
       Left = 16
@@ -55,18 +55,19 @@ object Form13: TForm13
       Width = 65
       Height = 13
       Caption = 'Identificador:'
+      Visible = False
     end
     object edSaida: TEdit
       Left = 84
       Top = 8
-      Width = 230
+      Width = 420
       Height = 21
       Anchors = [akLeft, akTop, akRight]
       TabOrder = 0
       TextHint = 'Pasta de sa'#237'da'
     end
     object cbSite: TComboBox
-      Left = 320
+      Left = 510
       Top = 8
       Width = 117
       Height = 21
@@ -74,6 +75,7 @@ object Form13: TForm13
       ItemIndex = 0
       TabOrder = 1
       Text = 'Instagram'
+      OnChange = cbSiteChange
       Items.Strings = (
         'Instagram'
         'xvideos'
@@ -81,7 +83,7 @@ object Form13: TForm13
         'Facebook')
     end
     object btBuscar: TBitBtn
-      Left = 320
+      Left = 510
       Top = 61
       Width = 117
       Height = 25
@@ -93,12 +95,13 @@ object Form13: TForm13
     object edIDD: TEdit
       Left = 84
       Top = 62
-      Width = 205
+      Width = 395
       Height = 21
       Anchors = [akLeft, akTop, akRight]
       TabOrder = 3
       Text = 'keywords=&sex=Woman&country=BR&verified=1&p='
       TextHint = 'Identificador'
+      Visible = False
     end
     object chJPG: TCheckBox
       Left = 88
@@ -137,17 +140,18 @@ object Form13: TForm13
       TabOrder = 7
     end
     object BitBtn1: TBitBtn
-      Left = 320
+      Left = 510
       Top = 31
       Width = 117
       Height = 25
       Anchors = [akTop, akRight]
       Caption = 'Buscar Perfis'
       TabOrder = 8
+      Visible = False
       OnClick = BitBtn1Click
     end
     object btSalvar: TButton
-      Left = 443
+      Left = 633
       Top = 62
       Width = 75
       Height = 25
@@ -157,63 +161,67 @@ object Form13: TForm13
       OnClick = btSalvarClick
     end
     object Edit1: TEdit
-      Left = 290
+      Left = 480
       Top = 62
       Width = 26
       Height = 21
       Anchors = [akTop, akRight]
       TabOrder = 10
       Text = '1'
+      Visible = False
     end
   end
   object PageControl1: TPageControl
     Left = 0
     Top = 108
-    Width = 630
-    Height = 327
-    ActivePage = TabSheet1
+    Width = 820
+    Height = 388
+    ActivePage = TabSheet3
     Align = alClient
     TabOrder = 1
-    ExplicitTop = 91
-    ExplicitHeight = 344
     object TabSheet1: TTabSheet
       Caption = 'Lista P'#225'ginas'
-      ExplicitHeight = 316
       object mmLista: TMemo
         Left = 0
         Top = 0
-        Width = 622
-        Height = 299
+        Width = 812
+        Height = 360
         Align = alClient
         TabOrder = 0
-        ExplicitHeight = 316
       end
     end
     object TabSheet2: TTabSheet
       Caption = 'Resultados'
       ImageIndex = 1
-      ExplicitHeight = 316
       object mmResultados: TMemo
         Left = 0
         Top = 0
-        Width = 622
-        Height = 299
+        Width = 812
+        Height = 360
         Align = alClient
         TabOrder = 0
-        ExplicitHeight = 316
+      end
+    end
+    object TabSheet3: TTabSheet
+      Caption = 'Pagina'
+      ImageIndex = 2
+      object mmPagina: TMemo
+        Left = 0
+        Top = 0
+        Width = 812
+        Height = 360
+        Align = alClient
+        TabOrder = 0
       end
     end
   end
   object ProgressBar1: TProgressBar
     Left = 0
     Top = 91
-    Width = 630
+    Width = 820
     Height = 17
     Align = alTop
     TabOrder = 2
     Visible = False
-    ExplicitLeft = 476
-    ExplicitTop = 12
-    ExplicitWidth = 150
   end
 end
