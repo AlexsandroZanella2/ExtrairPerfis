@@ -104,10 +104,19 @@ begin
   HttpClient := THttpClient.Create;
   Strm := TMemoryStream.Create;
 
+  if PerfilInsta = 'Blog.DrPepper' then begin
+    if AURL.contains('//blog.drpepper') then begin
+    caminhoOrd := copy(AURL,49);
+    end else begin
+    caminhoOrd := copy(AURL,29);
+    end;
+  end else begin
   caminhoOrd := copy(AURL,62);
+  caminhoOrd := copy(caminhoOrd,pos('/', caminhoOrd)+1);
+  end;
   //showmessage(caminhoOrd);
   caminhoOrd := StringReplace(caminhoOrd,'/','\',[rfReplaceAll, rfIgnoreCase]);
-  caminhoOrd := copy(caminhoOrd,pos('\', caminhoOrd)+1);
+
   //caminhoOrd := copy(caminhoOrd,pos('\', caminhoOrd)+1);
   //showmessage(caminhoOrd);
   if PerfilInsta = '' then begin
@@ -117,9 +126,12 @@ begin
   end;
 
   localTest := ew;
+  if perfilInsta <> 'Blog.DrPepper' then
   caminhoOrd := copy(caminhoOrd,pos('\', caminhoOrd)+1);
   caminhoOrd := copy(caminhoOrd,pos('\', caminhoOrd)+1);
   caminhoOrd := copy(caminhoOrd,pos('\', caminhoOrd)+1);
+
+  if (PerfilInsta <> '') and (PerfilInsta <> 'Blog.DrPepper') then
   caminhoOrd := copy(caminhoOrd,1,pos('.jpg', caminhoOrd)+3);
   caminhoOrd := ew + caminhoOrd ;
 
@@ -327,7 +339,7 @@ begin
   else if cbSite.ItemIndex = 1 then
   begin
     // XVideos
-    identificador := '';
+
     ProgressBar1.Max := mmLista.lines.Count;
     for i := 0 to mmLista.lines.Count - 1 do
     begin
@@ -381,6 +393,34 @@ begin
   begin
     // Facebook
 {____________________________________________________________________________________________________________}
+  end
+  else if cbSite.ItemIndex = 4 then
+  begin
+    // blog.DrPeeper
+        retListaImagens.add('@Blog.DrPepper');
+    ProgressBar1.Max := mmLista.lines.Count;
+    for i := 0 to mmLista.lines.Count - 1 do begin
+        ProgressBar1.Position := i;
+        pagina := GetURL(mmLista.lines[i]);
+        mmpagina.lines.text := pagina;
+        if pagina.Contains('840w') then begin
+          identificador := '" srcset="https://blog.drpepper.com.br/wp-content/uploads/';
+          while pagina.Contains(identificador) do begin
+            posicao := pos(identificador, pagina)+length(identificador);
+            pagina := copy(pagina, posicao);
+            retListaImagens.Add(copy(identificador,11)+copy(pagina,1,pos(' ',pagina)));
+          end;
+        end else if pagina.Contains('https://www.drpepper.com.br/tirinhas/') then begin
+          identificador := 'https://www.drpepper.com.br/tirinhas/';
+          while pagina.Contains(identificador) do begin
+            posicao := pos(identificador, pagina)+length(identificador);
+            pagina := copy(pagina, posicao);
+            retListaImagens.Add(identificador+copy(pagina,1,pos('"',pagina)-1));
+          end;
+        end;
+    end;
+    ProgressBar1.Visible := false;
+{____________________________________________________________________________________________________________}
   end;
   mmResultados.lines.Text := retListaImagens.Text;
   retListaImagens.Destroy;
@@ -391,15 +431,19 @@ procedure TForm13.btSalvarClick(Sender: TObject);
 var
 i: integer;
 Perfilname: string;
+
 begin
   ProgressBar1.Max := mmResultados.Lines.Count;
   ProgressBar1.Visible := true;
     for i := 0 to mmResultados.Lines.Count -1 do begin
       if copy(mmResultados.Lines[i], 1,1) = '@' then begin
         Perfilname := copy(mmResultados.Lines[i],2);
+
       end else begin
       ProgressBar1.Position := i;
+
       DownImage(mmResultados.Lines[i], edSaida.Text,Perfilname);
+
       end;
     end;
   ProgressBar1.Visible := false;
