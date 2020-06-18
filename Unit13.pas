@@ -41,6 +41,7 @@ type
     procedure btBuscarClick(Sender: TObject);
     procedure BitBtn1Click(Sender: TObject);
     procedure PesquisaXvideos;
+    procedure PesquisaBlogPeeper;
     procedure btSalvarClick(Sender: TObject);
     procedure cbSiteChange(Sender: TObject);
   private
@@ -152,12 +153,55 @@ begin
   end;
 end;
 
+procedure TForm13.PesquisaBlogPeeper;
+var
+  i, k, l: integer;
+  retListaPaginas: tstringlist;
+  check,test:string;
+begin
+  retListaPaginas := TStringList.Create;
+  retorno := TStringList.Create;
+
+  k:=0;
+  retorno.Text := GetURL('https://blog.drpepper.com.br');
+  identificador := '<li><a class=' + '''' + 'page-numbers' + ''''+ ' href=' + ''''+ 'https://blog.drpepper.com.br/page/';
+  while retorno.Text.Contains(identificador) do begin
+    posicao := pos(identificador, retorno.Text);
+    retorno.Text := copy(retorno.Text, posicao + length(identificador));
+
+
+    check:= copy(retorno.Text, 1, pos('/',retorno.Text)-1);
+    test := copy(check, 1, 1);
+    if test.Contains('1') or
+       test.Contains('2') or
+       test.Contains('3') or
+       test.Contains('4') or
+       test.Contains('5') or
+       test.Contains('6') or
+       test.Contains('7') or
+       test.Contains('8') or
+       test.Contains('9') then
+    if strtoint(check) > k then
+      k := strtoint(check);
+
+    mmPagina.lines.text := retorno.text;
+  end;
+
+  for i := 1 to k do begin
+    retListaPaginas.Add(copy(identificador,pos('https',identificador)) + inttostr(i) + '/')
+  end;
+
+
+  mmLista.Lines.Text := retListaPaginas.Text;
+  retListaPaginas.Destroy;
+  retorno.Destroy;
+end;
+
 procedure TForm13.PesquisaXvideos;
 var
   i, k, l: integer;
   retListaPerfis: tstringlist;
   check: string;
-
 begin
   retListaPerfis := tstringlist.Create;
   //
@@ -211,6 +255,9 @@ begin
     //;
   end else if cbSite.ItemIndex = 3 then begin
     //
+  end else if cbSite.ItemIndex = 4 then begin
+    //Blog.DrPeeper
+    PesquisaBlogPeeper;
   end;
 
 end;
@@ -371,11 +418,19 @@ begin
       edIDD.Visible := True;
       Label4.Visible := True;
       Bitbtn1.Visible := True;
+      Bitbtn1.Caption := 'Buscar Perfis';
       edit1.Visible := true;
     end else if cbSite.ItemIndex = 2 then begin
       //Tumblr
     end else if cbSite.ItemIndex = 3 then begin
       //Facebook
+    end else if cbSite.ItemIndex = 4 then begin
+      //Blog.DrPeeper
+      edIDD.Visible := False;
+      Label4.Visible := False;
+      Bitbtn1.Visible := true;
+      Bitbtn1.Caption := 'Buscar Páginas';
+      edit1.Visible := false;
     end;
 
 end;

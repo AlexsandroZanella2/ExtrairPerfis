@@ -72,7 +72,6 @@ object Form13: TForm13
       Width = 117
       Height = 21
       Anchors = [akTop, akRight]
-      ItemIndex = 0
       TabOrder = 1
       Text = 'Instagram'
       OnChange = cbSiteChange
@@ -80,7 +79,8 @@ object Form13: TForm13
         'Instagram'
         'xvideos'
         'Tumblr'
-        'Facebook')
+        'Facebook'
+        'Blog.DrPeeper')
     end
     object btBuscar: TBitBtn
       Left = 510
@@ -141,7 +141,7 @@ object Form13: TForm13
     end
     object BitBtn1: TBitBtn
       Left = 510
-      Top = 31
+      Top = 30
       Width = 117
       Height = 25
       Anchors = [akTop, akRight]
@@ -176,7 +176,7 @@ object Form13: TForm13
     Top = 108
     Width = 820
     Height = 388
-    ActivePage = TabSheet3
+    ActivePage = TabSheet2
     Align = alClient
     TabOrder = 1
     object TabSheet1: TTabSheet
